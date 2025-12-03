@@ -11,6 +11,7 @@ import (
 
 	httpHandler "github.com/jenish2917/a2a-registry-go/internal/adapters/handler/http"
 	"github.com/jenish2917/a2a-registry-go/internal/adapters/repository/memory"
+	"github.com/jenish2917/a2a-registry-go/internal/core/domain"
 	"github.com/jenish2917/a2a-registry-go/internal/core/services"
 )
 
@@ -24,13 +25,22 @@ func TestRegisterAgent(t *testing.T) {
 	handler := setupRouter()
 	router := httpHandler.SetupRouter(handler)
 
-	agentCard := map[string]interface{}{
-		"did":             "did:peer:123456789",
-		"name":            "agent-1",
-		"endpoint":        "http://localhost:3000",
-		"protocolVersion": "1.0",
-		"verifyingKeys":   []string{"key-1"},
+	agentCard := domain.AgentCard{
+		DID:             "did:peer:123456789",
+		Name:            "agent-1",
+		ProtocolVersion: "1.0",
+		SupportedInterfaces: []domain.AgentInterface{
+			{
+				ProtocolBinding: "HTTP+JSON",
+				URL:             "http://localhost:3000",
+			},
+		},
+		Provider: &domain.AgentProvider{
+			Organization: "Test Org",
+			URL:          "https://example.com",
+		},
 	}
+
 	body, _ := json.Marshal(map[string]interface{}{
 		"agentCard": agentCard,
 		"tags":      []string{"test"},
@@ -44,15 +54,16 @@ func TestRegisterAgent(t *testing.T) {
 
 	var response map[string]interface{}
 	json.Unmarshal(w.Body.Bytes(), &response)
-	assert.Equal(t, "did:peer:123456789", response["agentId"]) // Should use DID as ID
+	assert.Equal(t, "did:peer:123456789", response["agentId"])
 }
 
 func TestRegisterAgentValidationFailure(t *testing.T) {
 	handler := setupRouter()
 	router := httpHandler.SetupRouter(handler)
 
-	// Missing DID and Endpoint
+	// Missing SupportedInterfaces
 	agentCard := map[string]interface{}{
+		"did":  "did:peer:invalid",
 		"name": "agent-invalid",
 	}
 	body, _ := json.Marshal(map[string]interface{}{
@@ -71,12 +82,16 @@ func TestGetAgent(t *testing.T) {
 	router := httpHandler.SetupRouter(handler)
 
 	// Register first
-	agentCard := map[string]interface{}{
-		"did":             "did:peer:get-test",
-		"name":            "agent-1",
-		"endpoint":        "http://localhost:3000",
-		"protocolVersion": "1.0",
-		"verifyingKeys":   []string{"key-1"},
+	agentCard := domain.AgentCard{
+		DID:             "did:peer:get-test",
+		Name:            "agent-1",
+		ProtocolVersion: "1.0",
+		SupportedInterfaces: []domain.AgentInterface{
+			{
+				ProtocolBinding: "HTTP+JSON",
+				URL:             "http://localhost:3000",
+			},
+		},
 	}
 	body, _ := json.Marshal(map[string]interface{}{"agentCard": agentCard})
 	w := httptest.NewRecorder()
@@ -96,12 +111,16 @@ func TestHeartbeat(t *testing.T) {
 	router := httpHandler.SetupRouter(handler)
 
 	// Register
-	agentCard := map[string]interface{}{
-		"did":             "did:peer:heartbeat",
-		"name":            "agent-1",
-		"endpoint":        "http://localhost:3000",
-		"protocolVersion": "1.0",
-		"verifyingKeys":   []string{"key-1"},
+	agentCard := domain.AgentCard{
+		DID:             "did:peer:heartbeat",
+		Name:            "agent-1",
+		ProtocolVersion: "1.0",
+		SupportedInterfaces: []domain.AgentInterface{
+			{
+				ProtocolBinding: "HTTP+JSON",
+				URL:             "http://localhost:3000",
+			},
+		},
 	}
 	body, _ := json.Marshal(map[string]interface{}{"agentCard": agentCard})
 	w := httptest.NewRecorder()
@@ -122,12 +141,16 @@ func TestListAgents(t *testing.T) {
 
 	// Register 2 agents
 	for i := 0; i < 2; i++ {
-		agentCard := map[string]interface{}{
-			"did":             "did:peer:list-" + string(rune('0'+i)),
-			"name":            "agent-" + string(rune('0'+i)),
-			"endpoint":        "http://localhost:3000",
-			"protocolVersion": "1.0",
-			"verifyingKeys":   []string{"key-1"},
+		agentCard := domain.AgentCard{
+			DID:             "did:peer:list-" + string(rune('0'+i)),
+			Name:            "agent-" + string(rune('0'+i)),
+			ProtocolVersion: "1.0",
+			SupportedInterfaces: []domain.AgentInterface{
+				{
+					ProtocolBinding: "HTTP+JSON",
+					URL:             "http://localhost:3000",
+				},
+			},
 		}
 		body, _ := json.Marshal(map[string]interface{}{"agentCard": agentCard})
 		w := httptest.NewRecorder()

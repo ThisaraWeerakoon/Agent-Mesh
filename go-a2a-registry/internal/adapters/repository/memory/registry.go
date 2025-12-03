@@ -152,7 +152,6 @@ func matchesFilters(entry *domain.RegistryEntry, filters map[string]interface{})
 
 	// Skill filter
 	if skillName, ok := filters["skill"].(string); ok && skillName != "" {
-		// Now using struct fields
 		foundSkill := false
 		for _, s := range entry.AgentCard.Skills {
 			if strings.EqualFold(s.Name, skillName) {

@@ -21,11 +21,9 @@ func NewRegistryService(repo ports.RegistryRepository) ports.RegistryService {
 }
 
 func (s *RegistryServiceImpl) RegisterAgent(ctx context.Context, agentCard domain.AgentCard, tags []string, metadata map[string]interface{}, owner string) (*domain.RegistryEntry, error) {
-	// Use DID as AgentID if present, otherwise fallback to Name or UUID
-	// Since DID is now required, we should prefer it.
+	// Use DID as AgentID if present, otherwise fallback to UUID
 	agentID := agentCard.DID
 	if agentID == "" {
-		// Fallback should not happen if validation works, but good for safety
 		agentID = uuid.New().String()
 	}
 
