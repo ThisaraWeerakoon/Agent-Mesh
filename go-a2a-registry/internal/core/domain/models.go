@@ -8,7 +8,7 @@ import (
 type RegistryEntry struct {
 	ID            string                 `json:"id"`
 	AgentID       string                 `json:"agentId"`
-	AgentCard     map[string]interface{} `json:"agentCard"`
+	AgentCard     AgentCard              `json:"agentCard"` // Changed from map to struct
 	Owner         string                 `json:"owner"`
 	Tags          []string               `json:"tags"`
 	Verified      bool                   `json:"verified"`
@@ -19,13 +19,13 @@ type RegistryEntry struct {
 }
 
 // AgentCard represents the capabilities and details of an agent.
-// It is stored as a map in RegistryEntry to allow flexibility,
-// but this struct can be used for validation or specific logic if needed.
 type AgentCard struct {
-	Name            string        `json:"name"`
+	DID             string        `json:"did" binding:"required"` // A2A Requirement
+	Name            string        `json:"name" binding:"required"`
 	Description     string        `json:"description,omitempty"`
-	Endpoint        string        `json:"endpoint"`
-	ProtocolVersion string        `json:"protocolVersion"`
+	Endpoint        string        `json:"endpoint" binding:"required,url"`        // A2A Requirement
+	VerifyingKeys   []string      `json:"verifyingKeys" binding:"required,min=1"` // A2A Requirement
+	ProtocolVersion string        `json:"protocolVersion" binding:"required"`
 	Capabilities    *Capabilities `json:"capabilities,omitempty"`
 	Skills          []Skill       `json:"skills,omitempty"`
 }
@@ -36,6 +36,6 @@ type Capabilities struct {
 }
 
 type Skill struct {
-	Name        string `json:"name"`
+	Name        string `json:"name" binding:"required"`
 	Description string `json:"description,omitempty"`
 }

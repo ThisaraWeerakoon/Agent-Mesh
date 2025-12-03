@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/jenish2917/a2a-registry-go/internal/core/domain"
 	"github.com/jenish2917/a2a-registry-go/internal/core/ports"
 )
 
@@ -22,7 +23,7 @@ func NewRegistryHandler(service ports.RegistryService) *RegistryHandler {
 // RegisterAgent handles POST /agents
 func (h *RegistryHandler) RegisterAgent(c *gin.Context) {
 	var req struct {
-		AgentCard map[string]interface{} `json:"agentCard" binding:"required"`
+		AgentCard domain.AgentCard       `json:"agentCard" binding:"required"`
 		Tags      []string               `json:"tags"`
 		Metadata  map[string]interface{} `json:"metadata"`
 	}
@@ -32,7 +33,6 @@ func (h *RegistryHandler) RegisterAgent(c *gin.Context) {
 		return
 	}
 
-	// TODO: Get owner from auth context
 	owner := "anonymous"
 
 	entry, err := h.service.RegisterAgent(c.Request.Context(), req.AgentCard, req.Tags, req.Metadata, owner)
@@ -69,7 +69,7 @@ func (h *RegistryHandler) GetAgent(c *gin.Context) {
 func (h *RegistryHandler) UpdateAgent(c *gin.Context) {
 	agentID := c.Param("agentId")
 	var req struct {
-		AgentCard map[string]interface{} `json:"agentCard" binding:"required"`
+		AgentCard domain.AgentCard       `json:"agentCard" binding:"required"`
 		Tags      []string               `json:"tags"`
 		Metadata  map[string]interface{} `json:"metadata"`
 	}

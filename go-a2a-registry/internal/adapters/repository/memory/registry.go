@@ -150,28 +150,17 @@ func matchesFilters(entry *domain.RegistryEntry, filters map[string]interface{})
 		}
 	}
 
-	// Skill filter (check if any skill in AgentCard matches)
+	// Skill filter
 	if skillName, ok := filters["skill"].(string); ok && skillName != "" {
-		// Need to parse AgentCard to check skills. 
-		// Since AgentCard is map[string]interface{}, we need to traverse it.
-		// Structure: skills: [{name: "skillName"}]
-		if skills, ok := entry.AgentCard["skills"].([]interface{}); ok {
-			foundSkill := false
-			for _, s := range skills {
-				if skillMap, ok := s.(map[string]interface{}); ok {
-					if name, ok := skillMap["name"].(string); ok {
-						if strings.EqualFold(name, skillName) {
-							foundSkill = true
-							break
-						}
-					}
-				}
+		// Now using struct fields
+		foundSkill := false
+		for _, s := range entry.AgentCard.Skills {
+			if strings.EqualFold(s.Name, skillName) {
+				foundSkill = true
+				break
 			}
-			if !foundSkill {
-				return false
-			}
-		} else {
-			// No skills field
+		}
+		if !foundSkill {
 			return false
 		}
 	}

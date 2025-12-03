@@ -20,12 +20,12 @@ func NewRegistryService(repo ports.RegistryRepository) ports.RegistryService {
 	}
 }
 
-func (s *RegistryServiceImpl) RegisterAgent(ctx context.Context, agentCard map[string]interface{}, tags []string, metadata map[string]interface{}, owner string) (*domain.RegistryEntry, error) {
-	// Determine Agent ID
-	var agentID string
-	if name, ok := agentCard["name"].(string); ok && name != "" {
-		agentID = name
-	} else {
+func (s *RegistryServiceImpl) RegisterAgent(ctx context.Context, agentCard domain.AgentCard, tags []string, metadata map[string]interface{}, owner string) (*domain.RegistryEntry, error) {
+	// Use DID as AgentID if present, otherwise fallback to Name or UUID
+	// Since DID is now required, we should prefer it.
+	agentID := agentCard.DID
+	if agentID == "" {
+		// Fallback should not happen if validation works, but good for safety
 		agentID = uuid.New().String()
 	}
 
@@ -36,7 +36,7 @@ func (s *RegistryServiceImpl) RegisterAgent(ctx context.Context, agentCard map[s
 		AgentCard:    agentCard,
 		Owner:        owner,
 		Tags:         tags,
-		Verified:     false, // Default to false
+		Verified:     false,
 		RegisteredAt: now,
 		LastUpdated:  now,
 		Metadata:     metadata,
@@ -53,14 +53,12 @@ func (s *RegistryServiceImpl) GetAgent(ctx context.Context, agentID string) (*do
 	return s.repo.Get(ctx, agentID)
 }
 
-func (s *RegistryServiceImpl) UpdateAgent(ctx context.Context, agentID string, agentCard map[string]interface{}, tags []string, metadata map[string]interface{}) (*domain.RegistryEntry, error) {
-	// Check existence
+func (s *RegistryServiceImpl) UpdateAgent(ctx context.Context, agentID string, agentCard domain.AgentCard, tags []string, metadata map[string]interface{}) (*domain.RegistryEntry, error) {
 	existing, err := s.repo.Get(ctx, agentID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Update fields
 	existing.AgentCard = agentCard
 	existing.Tags = tags
 	existing.Metadata = metadata

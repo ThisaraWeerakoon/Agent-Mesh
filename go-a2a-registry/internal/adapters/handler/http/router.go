@@ -13,7 +13,6 @@ func SetupRouter(handler *RegistryHandler) *gin.Engine {
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status":   "healthy",
-			"database": "connected", // Mocked for now
 		})
 	})
 

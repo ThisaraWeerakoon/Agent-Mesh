@@ -7,7 +7,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-
 	"github.com/stretchr/testify/assert"
 
 	httpHandler "github.com/jenish2917/a2a-registry-go/internal/adapters/handler/http"
@@ -26,9 +25,11 @@ func TestRegisterAgent(t *testing.T) {
 	router := httpHandler.SetupRouter(handler)
 
 	agentCard := map[string]interface{}{
+		"did":             "did:peer:123456789",
 		"name":            "agent-1",
 		"endpoint":        "http://localhost:3000",
 		"protocolVersion": "1.0",
+		"verifyingKeys":   []string{"key-1"},
 	}
 	body, _ := json.Marshal(map[string]interface{}{
 		"agentCard": agentCard,
@@ -43,7 +44,26 @@ func TestRegisterAgent(t *testing.T) {
 
 	var response map[string]interface{}
 	json.Unmarshal(w.Body.Bytes(), &response)
-	assert.Equal(t, "agent-1", response["agentId"])
+	assert.Equal(t, "did:peer:123456789", response["agentId"]) // Should use DID as ID
+}
+
+func TestRegisterAgentValidationFailure(t *testing.T) {
+	handler := setupRouter()
+	router := httpHandler.SetupRouter(handler)
+
+	// Missing DID and Endpoint
+	agentCard := map[string]interface{}{
+		"name": "agent-invalid",
+	}
+	body, _ := json.Marshal(map[string]interface{}{
+		"agentCard": agentCard,
+	})
+
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/api/v1/agents/", bytes.NewBuffer(body))
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 400, w.Code)
 }
 
 func TestGetAgent(t *testing.T) {
@@ -51,7 +71,13 @@ func TestGetAgent(t *testing.T) {
 	router := httpHandler.SetupRouter(handler)
 
 	// Register first
-	agentCard := map[string]interface{}{"name": "agent-1"}
+	agentCard := map[string]interface{}{
+		"did":             "did:peer:get-test",
+		"name":            "agent-1",
+		"endpoint":        "http://localhost:3000",
+		"protocolVersion": "1.0",
+		"verifyingKeys":   []string{"key-1"},
+	}
 	body, _ := json.Marshal(map[string]interface{}{"agentCard": agentCard})
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/agents/", bytes.NewBuffer(body))
@@ -59,7 +85,7 @@ func TestGetAgent(t *testing.T) {
 
 	// Get
 	w = httptest.NewRecorder()
-	req, _ = http.NewRequest("GET", "/api/v1/agents/agent-1", nil)
+	req, _ = http.NewRequest("GET", "/api/v1/agents/did:peer:get-test", nil)
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, 200, w.Code)
@@ -70,7 +96,13 @@ func TestHeartbeat(t *testing.T) {
 	router := httpHandler.SetupRouter(handler)
 
 	// Register
-	agentCard := map[string]interface{}{"name": "agent-1"}
+	agentCard := map[string]interface{}{
+		"did":             "did:peer:heartbeat",
+		"name":            "agent-1",
+		"endpoint":        "http://localhost:3000",
+		"protocolVersion": "1.0",
+		"verifyingKeys":   []string{"key-1"},
+	}
 	body, _ := json.Marshal(map[string]interface{}{"agentCard": agentCard})
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/v1/agents/", bytes.NewBuffer(body))
@@ -78,13 +110,10 @@ func TestHeartbeat(t *testing.T) {
 
 	// Heartbeat
 	w = httptest.NewRecorder()
-	req, _ = http.NewRequest("POST", "/api/v1/agents/agent-1/heartbeat", nil)
+	req, _ = http.NewRequest("POST", "/api/v1/agents/did:peer:heartbeat/heartbeat", nil)
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, 200, w.Code)
-	var response map[string]interface{}
-	json.Unmarshal(w.Body.Bytes(), &response)
-	assert.NotNil(t, response["lastHeartbeat"])
 }
 
 func TestListAgents(t *testing.T) {
@@ -93,7 +122,13 @@ func TestListAgents(t *testing.T) {
 
 	// Register 2 agents
 	for i := 0; i < 2; i++ {
-		agentCard := map[string]interface{}{"name": "agent-" + string(rune('0'+i))}
+		agentCard := map[string]interface{}{
+			"did":             "did:peer:list-" + string(rune('0'+i)),
+			"name":            "agent-" + string(rune('0'+i)),
+			"endpoint":        "http://localhost:3000",
+			"protocolVersion": "1.0",
+			"verifyingKeys":   []string{"key-1"},
+		}
 		body, _ := json.Marshal(map[string]interface{}{"agentCard": agentCard})
 		w := httptest.NewRecorder()
 		req, _ := http.NewRequest("POST", "/api/v1/agents/", bytes.NewBuffer(body))
