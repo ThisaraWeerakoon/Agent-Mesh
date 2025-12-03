@@ -1,0 +1,198 @@
+syntax = "proto3";
+
+package a2a.registry.v1;
+
+option go_package = "github.com/ThisaraWeerakoon/Agent-Mesh/pkg/api/v1/registry;registry";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+service RegistryService {
+  rpc RegisterAgent(RegisterAgentRequest) returns (RegistryEntry);
+  rpc GetAgent(GetAgentRequest) returns (RegistryEntry);
+  rpc UpdateAgent(UpdateAgentRequest) returns (RegistryEntry);
+  rpc DeleteAgent(DeleteAgentRequest) returns (DeleteAgentResponse);
+  rpc ListAgents(ListAgentsRequest) returns (ListAgentsResponse);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
+
+message RegisterAgentRequest {
+  AgentCard agent_card = 1;
+  repeated string tags = 2;
+  google.protobuf.Struct metadata = 3;
+}
+
+message GetAgentRequest {
+  string agent_id = 1;
+}
+
+message UpdateAgentRequest {
+  string agent_id = 1;
+  AgentCard agent_card = 2;
+  repeated string tags = 3;
+  google.protobuf.Struct metadata = 4;
+}
+
+message DeleteAgentRequest {
+  string agent_id = 1;
+}
+
+message DeleteAgentResponse {}
+
+message ListAgentsRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+  repeated string tags = 3;
+  string skill = 4;
+  bool verified = 5;
+}
+
+message ListAgentsResponse {
+  repeated RegistryEntry agents = 1;
+  int32 total = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message HeartbeatRequest {
+  string agent_id = 1;
+}
+
+message HeartbeatResponse {
+  string agent_id = 1;
+  google.protobuf.Timestamp last_heartbeat = 2;
+}
+
+message RegistryEntry {
+  string id = 1;
+  string agent_id = 2;
+  AgentCard agent_card = 3;
+  string owner = 4;
+  repeated string tags = 5;
+  bool verified = 6;
+  google.protobuf.Timestamp registered_at = 7;
+  google.protobuf.Timestamp last_updated = 8;
+  google.protobuf.Timestamp last_heartbeat = 9;
+  google.protobuf.Struct metadata = 10;
+}
+
+message AgentCard {
+  string did = 1;
+  string name = 2;
+  string description = 3;
+  string documentation_url = 4;
+  string icon_url = 5;
+  string version = 6;
+  string protocol_version = 7;
+  AgentProvider provider = 8;
+  repeated AgentInterface supported_interfaces = 9;
+  AgentCapabilities capabilities = 10;
+  repeated AgentSkill skills = 11;
+  repeated string default_input_modes = 12;
+  repeated string default_output_modes = 13;
+  repeated Security security = 14;
+  map<string, SecurityScheme> security_schemes = 15;
+  repeated AgentCardSignature signatures = 16;
+  bool supports_authenticated_extended_card = 17;
+}
+
+message AgentProvider {
+  string organization = 1;
+  string url = 2;
+}
+
+message AgentInterface {
+  string protocol_binding = 1;
+  string url = 2;
+}
+
+message AgentCapabilities {
+  bool streaming = 1;
+  bool push_notifications = 2;
+  bool state_transition_history = 3;
+  repeated AgentExtension extensions = 4;
+}
+
+message AgentExtension {
+  string uri = 1;
+  string description = 2;
+  bool required = 3;
+  google.protobuf.Struct params = 4;
+}
+
+message AgentSkill {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated string examples = 4;
+  repeated string input_modes = 5;
+  repeated string output_modes = 6;
+  repeated Security security = 7;
+  repeated string tags = 8;
+}
+
+message Security {
+  map<string, StringList> schemes = 1;
+}
+
+message StringList {
+  repeated string values = 1;
+}
+
+message SecurityScheme {
+  string description = 1;
+  oneof scheme {
+    APIKeySecurityScheme api_key = 2;
+    HTTPAuthSecurityScheme http_auth = 3;
+    MutualTLSSecurityScheme mtls = 4;
+    OAuth2SecurityScheme oauth2 = 5;
+    OpenIDConnectSecurityScheme oidc = 6;
+  }
+}
+
+message APIKeySecurityScheme {
+  string name = 1;
+  string location = 2;
+  string description = 3;
+}
+
+message HTTPAuthSecurityScheme {
+  string scheme = 1;
+  string bearer_format = 2;
+  string description = 3;
+}
+
+message MutualTLSSecurityScheme {
+  string description = 1;
+}
+
+message OAuth2SecurityScheme {
+  OAuthFlows flows = 1;
+  string oauth2_metadata_url = 2;
+  string description = 3;
+}
+
+message OAuthFlows {
+  OAuthFlow authorization_code = 1;
+  OAuthFlow client_credentials = 2;
+  OAuthFlow implicit = 3;
+  OAuthFlow password = 4;
+}
+
+message OAuthFlow {
+  string authorization_url = 1;
+  string token_url = 2;
+  string refresh_url = 3;
+  map<string, string> scopes = 4;
+}
+
+message OpenIDConnectSecurityScheme {
+  string open_id_connect_url = 1;
+  string description = 2;
+}
+
+message AgentCardSignature {
+  google.protobuf.Struct header = 1;
+  string protected = 2;
+  string signature = 3;
+}
