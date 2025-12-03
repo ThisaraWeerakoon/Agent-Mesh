@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/jenish2917/a2a-registry-go/internal/adapters/handler/http"
-	"github.com/jenish2917/a2a-registry-go/internal/adapters/repository/memory"
-	"github.com/jenish2917/a2a-registry-go/internal/core/services"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/adapters/handler/http"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/adapters/repository/memory"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/core/services"
 )
 
 func main() {

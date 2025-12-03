@@ -9,10 +9,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	httpHandler "github.com/jenish2917/a2a-registry-go/internal/adapters/handler/http"
-	"github.com/jenish2917/a2a-registry-go/internal/adapters/repository/memory"
-	"github.com/jenish2917/a2a-registry-go/internal/core/domain"
-	"github.com/jenish2917/a2a-registry-go/internal/core/services"
+	httpHandler "github.com/ThisaraWeerakoon/Agent-Mesh/internal/adapters/handler/http"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/adapters/repository/memory"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/core/domain"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/core/services"
 )
 
 func setupRouter() *httpHandler.RegistryHandler {

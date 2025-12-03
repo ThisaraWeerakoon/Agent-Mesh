@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/jenish2917/a2a-registry-go/internal/core/domain"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/core/domain"
 )
 
 // RegistryRepository defines the interface for storage operations.

@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jenish2917/a2a-registry-go/internal/core/domain"
-	"github.com/jenish2917/a2a-registry-go/internal/core/ports"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/core/domain"
+	"github.com/ThisaraWeerakoon/Agent-Mesh/internal/core/ports"
 )
 
 type MemoryRegistryRepository struct {
