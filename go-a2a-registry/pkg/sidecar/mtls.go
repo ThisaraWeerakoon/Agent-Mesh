@@ -37,6 +37,7 @@ func loadTLSCredentials(caFile, certFile, keyFile string) (credentials.Transport
 		Certificates: []tls.Certificate{serverCert},
 		ClientAuth:   tls.RequireAndVerifyClientCert,
 		ClientCAs:    certPool,
+		RootCAs:      certPool,
 	}
 
 	return credentials.NewTLS(config), nil
