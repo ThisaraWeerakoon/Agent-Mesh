@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v5.29.3
-// source: mesh.proto
+// source: pkg/api/v1/mesh/mesh.proto
 
 package mesh
 
@@ -239,5 +239,5 @@ var A2AMeshService_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "mesh.proto",
+	Metadata: "pkg/api/v1/mesh/mesh.proto",
 }

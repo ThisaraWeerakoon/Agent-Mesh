@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.3
-// source: mesh.proto
+// source: pkg/api/v1/mesh/mesh.proto
 
 package mesh
 
@@ -63,11 +63,11 @@ func (x Task_Status) String() string {
 }
 
 func (Task_Status) Descriptor() protoreflect.EnumDescriptor {
-	return file_mesh_proto_enumTypes[0].Descriptor()
+	return file_pkg_api_v1_mesh_mesh_proto_enumTypes[0].Descriptor()
 }
 
 func (Task_Status) Type() protoreflect.EnumType {
-	return &file_mesh_proto_enumTypes[0]
+	return &file_pkg_api_v1_mesh_mesh_proto_enumTypes[0]
 }
 
 func (x Task_Status) Number() protoreflect.EnumNumber {
@@ -76,7 +76,7 @@ func (x Task_Status) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Task_Status.Descriptor instead.
 func (Task_Status) EnumDescriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{3, 0}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{3, 0}
 }
 
 // TaskSendRequest initiates a new task.
@@ -94,7 +94,7 @@ type TaskSendRequest struct {
 
 func (x *TaskSendRequest) Reset() {
 	*x = TaskSendRequest{}
-	mi := &file_mesh_proto_msgTypes[0]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -106,7 +106,7 @@ func (x *TaskSendRequest) String() string {
 func (*TaskSendRequest) ProtoMessage() {}
 
 func (x *TaskSendRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[0]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -119,7 +119,7 @@ func (x *TaskSendRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskSendRequest.ProtoReflect.Descriptor instead.
 func (*TaskSendRequest) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{0}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *TaskSendRequest) GetContextId() string {
@@ -153,7 +153,7 @@ type GetTaskRequest struct {
 
 func (x *GetTaskRequest) Reset() {
 	*x = GetTaskRequest{}
-	mi := &file_mesh_proto_msgTypes[1]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -165,7 +165,7 @@ func (x *GetTaskRequest) String() string {
 func (*GetTaskRequest) ProtoMessage() {}
 
 func (x *GetTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[1]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -178,7 +178,7 @@ func (x *GetTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTaskRequest.ProtoReflect.Descriptor instead.
 func (*GetTaskRequest) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{1}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetTaskRequest) GetId() string {
@@ -198,7 +198,7 @@ type CancelTaskRequest struct {
 
 func (x *CancelTaskRequest) Reset() {
 	*x = CancelTaskRequest{}
-	mi := &file_mesh_proto_msgTypes[2]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -210,7 +210,7 @@ func (x *CancelTaskRequest) String() string {
 func (*CancelTaskRequest) ProtoMessage() {}
 
 func (x *CancelTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[2]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -223,7 +223,7 @@ func (x *CancelTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelTaskRequest.ProtoReflect.Descriptor instead.
 func (*CancelTaskRequest) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{2}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CancelTaskRequest) GetId() string {
@@ -247,7 +247,7 @@ type Task struct {
 
 func (x *Task) Reset() {
 	*x = Task{}
-	mi := &file_mesh_proto_msgTypes[3]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -259,7 +259,7 @@ func (x *Task) String() string {
 func (*Task) ProtoMessage() {}
 
 func (x *Task) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[3]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -272,7 +272,7 @@ func (x *Task) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Task.ProtoReflect.Descriptor instead.
 func (*Task) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{3}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Task) GetId() string {
@@ -322,7 +322,7 @@ type Message struct {
 
 func (x *Message) Reset() {
 	*x = Message{}
-	mi := &file_mesh_proto_msgTypes[4]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -334,7 +334,7 @@ func (x *Message) String() string {
 func (*Message) ProtoMessage() {}
 
 func (x *Message) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[4]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -347,7 +347,7 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message.ProtoReflect.Descriptor instead.
 func (*Message) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{4}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *Message) GetRole() string {
@@ -386,7 +386,7 @@ type Part struct {
 
 func (x *Part) Reset() {
 	*x = Part{}
-	mi := &file_mesh_proto_msgTypes[5]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -398,7 +398,7 @@ func (x *Part) String() string {
 func (*Part) ProtoMessage() {}
 
 func (x *Part) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[5]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -411,7 +411,7 @@ func (x *Part) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Part.ProtoReflect.Descriptor instead.
 func (*Part) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{5}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *Part) GetContent() isPart_Content {
@@ -485,7 +485,7 @@ type FilePart struct {
 
 func (x *FilePart) Reset() {
 	*x = FilePart{}
-	mi := &file_mesh_proto_msgTypes[6]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -497,7 +497,7 @@ func (x *FilePart) String() string {
 func (*FilePart) ProtoMessage() {}
 
 func (x *FilePart) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[6]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -510,7 +510,7 @@ func (x *FilePart) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilePart.ProtoReflect.Descriptor instead.
 func (*FilePart) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{6}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *FilePart) GetData() isFilePart_Data {
@@ -578,7 +578,7 @@ type Artifact struct {
 
 func (x *Artifact) Reset() {
 	*x = Artifact{}
-	mi := &file_mesh_proto_msgTypes[7]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -590,7 +590,7 @@ func (x *Artifact) String() string {
 func (*Artifact) ProtoMessage() {}
 
 func (x *Artifact) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[7]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -603,7 +603,7 @@ func (x *Artifact) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Artifact.ProtoReflect.Descriptor instead.
 func (*Artifact) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{7}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *Artifact) GetId() string {
@@ -673,6 +673,7 @@ type StreamEvent struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Event:
 	//
+	//	*StreamEvent_TaskStart
 	//	*StreamEvent_StatusUpdate
 	//	*StreamEvent_ArtifactUpdate
 	Event         isStreamEvent_Event `protobuf_oneof:"event"`
@@ -682,7 +683,7 @@ type StreamEvent struct {
 
 func (x *StreamEvent) Reset() {
 	*x = StreamEvent{}
-	mi := &file_mesh_proto_msgTypes[8]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -694,7 +695,7 @@ func (x *StreamEvent) String() string {
 func (*StreamEvent) ProtoMessage() {}
 
 func (x *StreamEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[8]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -707,12 +708,21 @@ func (x *StreamEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StreamEvent.ProtoReflect.Descriptor instead.
 func (*StreamEvent) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{8}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *StreamEvent) GetEvent() isStreamEvent_Event {
 	if x != nil {
 		return x.Event
+	}
+	return nil
+}
+
+func (x *StreamEvent) GetTaskStart() *TaskStart {
+	if x != nil {
+		if x, ok := x.Event.(*StreamEvent_TaskStart); ok {
+			return x.TaskStart
+		}
 	}
 	return nil
 }
@@ -739,6 +749,10 @@ type isStreamEvent_Event interface {
 	isStreamEvent_Event()
 }
 
+type StreamEvent_TaskStart struct {
+	TaskStart *TaskStart `protobuf:"bytes,3,opt,name=task_start,json=taskStart,proto3,oneof"`
+}
+
 type StreamEvent_StatusUpdate struct {
 	StatusUpdate *TaskStatusUpdate `protobuf:"bytes,1,opt,name=status_update,json=statusUpdate,proto3,oneof"`
 }
@@ -747,9 +761,56 @@ type StreamEvent_ArtifactUpdate struct {
 	ArtifactUpdate *TaskArtifactUpdate `protobuf:"bytes,2,opt,name=artifact_update,json=artifactUpdate,proto3,oneof"`
 }
 
+func (*StreamEvent_TaskStart) isStreamEvent_Event() {}
+
 func (*StreamEvent_StatusUpdate) isStreamEvent_Event() {}
 
 func (*StreamEvent_ArtifactUpdate) isStreamEvent_Event() {}
+
+// TaskStart initiates a new task in the stream.
+type TaskStart struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Request       *TaskSendRequest       `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TaskStart) Reset() {
+	*x = TaskStart{}
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TaskStart) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaskStart) ProtoMessage() {}
+
+func (x *TaskStart) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaskStart.ProtoReflect.Descriptor instead.
+func (*TaskStart) Descriptor() ([]byte, []int) {
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *TaskStart) GetRequest() *TaskSendRequest {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
 
 // TaskStatusUpdate represents a change in task status.
 type TaskStatusUpdate struct {
@@ -763,7 +824,7 @@ type TaskStatusUpdate struct {
 
 func (x *TaskStatusUpdate) Reset() {
 	*x = TaskStatusUpdate{}
-	mi := &file_mesh_proto_msgTypes[9]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -775,7 +836,7 @@ func (x *TaskStatusUpdate) String() string {
 func (*TaskStatusUpdate) ProtoMessage() {}
 
 func (x *TaskStatusUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[9]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -788,7 +849,7 @@ func (x *TaskStatusUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskStatusUpdate.ProtoReflect.Descriptor instead.
 func (*TaskStatusUpdate) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{9}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *TaskStatusUpdate) GetTaskId() string {
@@ -823,7 +884,7 @@ type TaskArtifactUpdate struct {
 
 func (x *TaskArtifactUpdate) Reset() {
 	*x = TaskArtifactUpdate{}
-	mi := &file_mesh_proto_msgTypes[10]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -835,7 +896,7 @@ func (x *TaskArtifactUpdate) String() string {
 func (*TaskArtifactUpdate) ProtoMessage() {}
 
 func (x *TaskArtifactUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_mesh_proto_msgTypes[10]
+	mi := &file_pkg_api_v1_mesh_mesh_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -848,7 +909,7 @@ func (x *TaskArtifactUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskArtifactUpdate.ProtoReflect.Descriptor instead.
 func (*TaskArtifactUpdate) Descriptor() ([]byte, []int) {
-	return file_mesh_proto_rawDescGZIP(), []int{10}
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *TaskArtifactUpdate) GetTaskId() string {
@@ -865,12 +926,11 @@ func (x *TaskArtifactUpdate) GetArtifact() *Artifact {
 	return nil
 }
 
-var File_mesh_proto protoreflect.FileDescriptor
+var File_pkg_api_v1_mesh_mesh_proto protoreflect.FileDescriptor
 
-const file_mesh_proto_rawDesc = "" +
+const file_pkg_api_v1_mesh_mesh_proto_rawDesc = "" +
 	"\n" +
-	"\n" +
-	"mesh.proto\x12\vapi.v1.mesh\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x88\x01\n" +
+	"\x1apkg/api/v1/mesh/mesh.proto\x12\vapi.v1.mesh\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x88\x01\n" +
 	"\x0fTaskSendRequest\x12\x1d\n" +
 	"\n" +
 	"context_id\x18\x01 \x01(\tR\tcontextId\x12&\n" +
@@ -915,11 +975,15 @@ const file_mesh_proto_rawDesc = "" +
 	"\tmime_type\x18\x03 \x01(\tR\bmimeType\x12\x16\n" +
 	"\x05bytes\x18\x04 \x01(\fH\x00R\x05bytes\x12\x12\n" +
 	"\x03uri\x18\x05 \x01(\tH\x00R\x03uriB\t\n" +
-	"\acontent\"\xa8\x01\n" +
-	"\vStreamEvent\x12D\n" +
+	"\acontent\"\xe1\x01\n" +
+	"\vStreamEvent\x127\n" +
+	"\n" +
+	"task_start\x18\x03 \x01(\v2\x16.api.v1.mesh.TaskStartH\x00R\ttaskStart\x12D\n" +
 	"\rstatus_update\x18\x01 \x01(\v2\x1d.api.v1.mesh.TaskStatusUpdateH\x00R\fstatusUpdate\x12J\n" +
 	"\x0fartifact_update\x18\x02 \x01(\v2\x1f.api.v1.mesh.TaskArtifactUpdateH\x00R\x0eartifactUpdateB\a\n" +
-	"\x05event\"w\n" +
+	"\x05event\"C\n" +
+	"\tTaskStart\x126\n" +
+	"\arequest\x18\x01 \x01(\v2\x1c.api.v1.mesh.TaskSendRequestR\arequest\"w\n" +
 	"\x10TaskStatusUpdate\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x120\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x18.api.v1.mesh.Task.StatusR\x06status\x12\x18\n" +
@@ -936,20 +1000,20 @@ const file_mesh_proto_rawDesc = "" +
 	"CancelTask\x12\x1e.api.v1.mesh.CancelTaskRequest\x1a\x16.google.protobuf.EmptyB8Z6github.com/ThisaraWeerakoon/Agent-Mesh/pkg/api/v1/meshb\x06proto3"
 
 var (
-	file_mesh_proto_rawDescOnce sync.Once
-	file_mesh_proto_rawDescData []byte
+	file_pkg_api_v1_mesh_mesh_proto_rawDescOnce sync.Once
+	file_pkg_api_v1_mesh_mesh_proto_rawDescData []byte
 )
 
-func file_mesh_proto_rawDescGZIP() []byte {
-	file_mesh_proto_rawDescOnce.Do(func() {
-		file_mesh_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_mesh_proto_rawDesc), len(file_mesh_proto_rawDesc)))
+func file_pkg_api_v1_mesh_mesh_proto_rawDescGZIP() []byte {
+	file_pkg_api_v1_mesh_mesh_proto_rawDescOnce.Do(func() {
+		file_pkg_api_v1_mesh_mesh_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_pkg_api_v1_mesh_mesh_proto_rawDesc), len(file_pkg_api_v1_mesh_mesh_proto_rawDesc)))
 	})
-	return file_mesh_proto_rawDescData
+	return file_pkg_api_v1_mesh_mesh_proto_rawDescData
 }
 
-var file_mesh_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_mesh_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
-var file_mesh_proto_goTypes = []any{
+var file_pkg_api_v1_mesh_mesh_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_pkg_api_v1_mesh_mesh_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_pkg_api_v1_mesh_mesh_proto_goTypes = []any{
 	(Task_Status)(0),              // 0: api.v1.mesh.Task.Status
 	(*TaskSendRequest)(nil),       // 1: api.v1.mesh.TaskSendRequest
 	(*GetTaskRequest)(nil),        // 2: api.v1.mesh.GetTaskRequest
@@ -960,59 +1024,63 @@ var file_mesh_proto_goTypes = []any{
 	(*FilePart)(nil),              // 7: api.v1.mesh.FilePart
 	(*Artifact)(nil),              // 8: api.v1.mesh.Artifact
 	(*StreamEvent)(nil),           // 9: api.v1.mesh.StreamEvent
-	(*TaskStatusUpdate)(nil),      // 10: api.v1.mesh.TaskStatusUpdate
-	(*TaskArtifactUpdate)(nil),    // 11: api.v1.mesh.TaskArtifactUpdate
-	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
-	(*structpb.Struct)(nil),       // 13: google.protobuf.Struct
-	(*emptypb.Empty)(nil),         // 14: google.protobuf.Empty
+	(*TaskStart)(nil),             // 10: api.v1.mesh.TaskStart
+	(*TaskStatusUpdate)(nil),      // 11: api.v1.mesh.TaskStatusUpdate
+	(*TaskArtifactUpdate)(nil),    // 12: api.v1.mesh.TaskArtifactUpdate
+	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
+	(*structpb.Struct)(nil),       // 14: google.protobuf.Struct
+	(*emptypb.Empty)(nil),         // 15: google.protobuf.Empty
 }
-var file_mesh_proto_depIdxs = []int32{
+var file_pkg_api_v1_mesh_mesh_proto_depIdxs = []int32{
 	5,  // 0: api.v1.mesh.TaskSendRequest.message:type_name -> api.v1.mesh.Message
 	0,  // 1: api.v1.mesh.Task.status:type_name -> api.v1.mesh.Task.Status
 	5,  // 2: api.v1.mesh.Task.history:type_name -> api.v1.mesh.Message
 	8,  // 3: api.v1.mesh.Task.artifacts:type_name -> api.v1.mesh.Artifact
-	12, // 4: api.v1.mesh.Message.created_at:type_name -> google.protobuf.Timestamp
+	13, // 4: api.v1.mesh.Message.created_at:type_name -> google.protobuf.Timestamp
 	6,  // 5: api.v1.mesh.Message.parts:type_name -> api.v1.mesh.Part
 	7,  // 6: api.v1.mesh.Part.file_part:type_name -> api.v1.mesh.FilePart
-	13, // 7: api.v1.mesh.Part.data_part:type_name -> google.protobuf.Struct
-	10, // 8: api.v1.mesh.StreamEvent.status_update:type_name -> api.v1.mesh.TaskStatusUpdate
-	11, // 9: api.v1.mesh.StreamEvent.artifact_update:type_name -> api.v1.mesh.TaskArtifactUpdate
-	0,  // 10: api.v1.mesh.TaskStatusUpdate.status:type_name -> api.v1.mesh.Task.Status
-	8,  // 11: api.v1.mesh.TaskArtifactUpdate.artifact:type_name -> api.v1.mesh.Artifact
-	1,  // 12: api.v1.mesh.A2AMeshService.SendTask:input_type -> api.v1.mesh.TaskSendRequest
-	9,  // 13: api.v1.mesh.A2AMeshService.StreamTask:input_type -> api.v1.mesh.StreamEvent
-	2,  // 14: api.v1.mesh.A2AMeshService.GetTask:input_type -> api.v1.mesh.GetTaskRequest
-	3,  // 15: api.v1.mesh.A2AMeshService.CancelTask:input_type -> api.v1.mesh.CancelTaskRequest
-	4,  // 16: api.v1.mesh.A2AMeshService.SendTask:output_type -> api.v1.mesh.Task
-	9,  // 17: api.v1.mesh.A2AMeshService.StreamTask:output_type -> api.v1.mesh.StreamEvent
-	4,  // 18: api.v1.mesh.A2AMeshService.GetTask:output_type -> api.v1.mesh.Task
-	14, // 19: api.v1.mesh.A2AMeshService.CancelTask:output_type -> google.protobuf.Empty
-	16, // [16:20] is the sub-list for method output_type
-	12, // [12:16] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	14, // 7: api.v1.mesh.Part.data_part:type_name -> google.protobuf.Struct
+	10, // 8: api.v1.mesh.StreamEvent.task_start:type_name -> api.v1.mesh.TaskStart
+	11, // 9: api.v1.mesh.StreamEvent.status_update:type_name -> api.v1.mesh.TaskStatusUpdate
+	12, // 10: api.v1.mesh.StreamEvent.artifact_update:type_name -> api.v1.mesh.TaskArtifactUpdate
+	1,  // 11: api.v1.mesh.TaskStart.request:type_name -> api.v1.mesh.TaskSendRequest
+	0,  // 12: api.v1.mesh.TaskStatusUpdate.status:type_name -> api.v1.mesh.Task.Status
+	8,  // 13: api.v1.mesh.TaskArtifactUpdate.artifact:type_name -> api.v1.mesh.Artifact
+	1,  // 14: api.v1.mesh.A2AMeshService.SendTask:input_type -> api.v1.mesh.TaskSendRequest
+	9,  // 15: api.v1.mesh.A2AMeshService.StreamTask:input_type -> api.v1.mesh.StreamEvent
+	2,  // 16: api.v1.mesh.A2AMeshService.GetTask:input_type -> api.v1.mesh.GetTaskRequest
+	3,  // 17: api.v1.mesh.A2AMeshService.CancelTask:input_type -> api.v1.mesh.CancelTaskRequest
+	4,  // 18: api.v1.mesh.A2AMeshService.SendTask:output_type -> api.v1.mesh.Task
+	9,  // 19: api.v1.mesh.A2AMeshService.StreamTask:output_type -> api.v1.mesh.StreamEvent
+	4,  // 20: api.v1.mesh.A2AMeshService.GetTask:output_type -> api.v1.mesh.Task
+	15, // 21: api.v1.mesh.A2AMeshService.CancelTask:output_type -> google.protobuf.Empty
+	18, // [18:22] is the sub-list for method output_type
+	14, // [14:18] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
-func init() { file_mesh_proto_init() }
-func file_mesh_proto_init() {
-	if File_mesh_proto != nil {
+func init() { file_pkg_api_v1_mesh_mesh_proto_init() }
+func file_pkg_api_v1_mesh_mesh_proto_init() {
+	if File_pkg_api_v1_mesh_mesh_proto != nil {
 		return
 	}
-	file_mesh_proto_msgTypes[5].OneofWrappers = []any{
+	file_pkg_api_v1_mesh_mesh_proto_msgTypes[5].OneofWrappers = []any{
 		(*Part_TextPart)(nil),
 		(*Part_FilePart)(nil),
 		(*Part_DataPart)(nil),
 	}
-	file_mesh_proto_msgTypes[6].OneofWrappers = []any{
+	file_pkg_api_v1_mesh_mesh_proto_msgTypes[6].OneofWrappers = []any{
 		(*FilePart_InlineBytes)(nil),
 		(*FilePart_Uri)(nil),
 	}
-	file_mesh_proto_msgTypes[7].OneofWrappers = []any{
+	file_pkg_api_v1_mesh_mesh_proto_msgTypes[7].OneofWrappers = []any{
 		(*Artifact_Bytes)(nil),
 		(*Artifact_Uri)(nil),
 	}
-	file_mesh_proto_msgTypes[8].OneofWrappers = []any{
+	file_pkg_api_v1_mesh_mesh_proto_msgTypes[8].OneofWrappers = []any{
+		(*StreamEvent_TaskStart)(nil),
 		(*StreamEvent_StatusUpdate)(nil),
 		(*StreamEvent_ArtifactUpdate)(nil),
 	}
@@ -1020,18 +1088,18 @@ func file_mesh_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_mesh_proto_rawDesc), len(file_mesh_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pkg_api_v1_mesh_mesh_proto_rawDesc), len(file_pkg_api_v1_mesh_mesh_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_mesh_proto_goTypes,
-		DependencyIndexes: file_mesh_proto_depIdxs,
-		EnumInfos:         file_mesh_proto_enumTypes,
-		MessageInfos:      file_mesh_proto_msgTypes,
+		GoTypes:           file_pkg_api_v1_mesh_mesh_proto_goTypes,
+		DependencyIndexes: file_pkg_api_v1_mesh_mesh_proto_depIdxs,
+		EnumInfos:         file_pkg_api_v1_mesh_mesh_proto_enumTypes,
+		MessageInfos:      file_pkg_api_v1_mesh_mesh_proto_msgTypes,
 	}.Build()
-	File_mesh_proto = out.File
-	file_mesh_proto_goTypes = nil
-	file_mesh_proto_depIdxs = nil
+	File_pkg_api_v1_mesh_mesh_proto = out.File
+	file_pkg_api_v1_mesh_mesh_proto_goTypes = nil
+	file_pkg_api_v1_mesh_mesh_proto_depIdxs = nil
 }
