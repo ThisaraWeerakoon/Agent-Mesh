@@ -7,7 +7,7 @@ import (
 	"net"
 
 	mesh "github.com/ThisaraWeerakoon/Agent-Mesh/pkg/api/v1/mesh"
-	"google.golang.org/adk/llmagent"
+	"google.golang.org/adk/agent"
 	"google.golang.org/grpc"
 )
 
@@ -15,12 +15,12 @@ import (
 // It implements the A2AMeshService interface.
 type ServerWrapper struct {
 	mesh.UnimplementedA2AMeshServiceServer
-	agent *llmagent.Agent
+	agent agent.Agent
 }
 
 // ServeAgent starts a gRPC server that listens for AgentMesh tasks and forwards them to the provided ADK agent.
 // This blocks until the server stops.
-func ServeAgent(port int, agent *llmagent.Agent) error {
+func ServeAgent(port int, agent agent.Agent) error {
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 	if err != nil {
 		return fmt.Errorf("failed to listen on port %d: %w", port, err)
