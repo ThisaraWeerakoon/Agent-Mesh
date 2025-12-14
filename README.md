@@ -51,12 +51,13 @@ The server will start on:
 ## Google ADK Integration
 Easily integrate `google/adk-go` agents with the AgentMesh network.
 
-### 1. Client: Import Remote Agent as Tool
+### 1. Client: Remote Agent as Tool
 ```go
 import mesh_adk "github.com/ThisaraWeerakoon/Agent-Mesh/pkg/adk"
 
 // Create a tool that proxies requests to the remote 'summary_agent'
-summaryTool, _ := mesh_adk.ImportTool("summary_agent")
+// No schema definition needed - it defaults to handling a "request" string.
+summaryTool, _ := mesh_adk.RemoteTool("summary_agent", "A tool that summarizes text.", "summary_agent")
 
 // Use it in your agent
 rootAgent, _ := llmagent.New(llmagent.Config{
@@ -69,8 +70,16 @@ rootAgent, _ := llmagent.New(llmagent.Config{
 import mesh_adk "github.com/ThisaraWeerakoon/Agent-Mesh/pkg/adk"
 
 // Start a server that listens for mesh tasks and forwards to your agent
+// It uses the standard ADK Runner to execute the agent.
 mesh_adk.ServeAgent(50054, myAdkAgent)
 ```
+
+### 3. Running the Example
+Launch the complete flow with:
+
+1. **Sidecar**: `go run cmd/sidecar/main.go`
+2. **Agent Server**: `go run cmd/adk_example/server/main.go`
+3. **Client**: `go run cmd/adk_example/client/main.go "Summarize this..."`
 
 ## Documentation
 
