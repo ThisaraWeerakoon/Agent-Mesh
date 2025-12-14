@@ -117,3 +117,84 @@ go-a2a-registry/
 1.  **Persistence**: Replace `memory` repository with a `postgres` implementation.
 2.  **Authentication**: Add an Auth Middleware (JWT/OAuth2) to secure endpoints.
 3.  **Events**: Implement an Event Bus to publish registry events (AgentRegistered, AgentOffline).
+
+## 6. ADK & Mesh Integration (Remote Agents)
+
+This section explains the execution flow when an ADK agent calls another agent over the AgentMesh.
+
+### 6.1. Component Overview
+- **Client (`cmd/adk_example/client/main.go`)**: The consumer application. It runs a `root_agent` that wants to delegate a task (e.g., summarization) to another agent. It uses `RemoteTool` to create a proxy for the remote agent.
+- **Sidecar (`cmd/sidecar/main.go`)**: The mesh proxy. It runs alongside the application and handles all network communication, routing, and protocol translation between agents.
+- **Agent Server (`cmd/adk_example/server/main.go`)**: The provider application. It exposes a specific ADK agent ("summary_agent") to the network using `mesh_adk.ServeAgent`.
+- **Registry (`cmd/server/main.go`)**: Stores agent discovery information (address, supported skills), allowing sidecars to find each other.
+
+### 6.2. Detailed Execution Flow
+
+1.  **Client Initialization**:
+    *   In `client/main.go`, the application initializes.
+    *   It creates a `root_agent` (Gemini-powered).
+    *   It creates a proxy tool using `mesh_adk.RemoteTool("summary_agent", ...)` defined in `pkg/adk/tool.go`.
+    *   The `agenttool` logic automatically defines a schema expecting a `"request"` string.
+
+2.  **Tool Invocation (Client-Side)**:
+    *   During execution, the `root_agent` generates a call to `summary_agent` with a specific prompt.
+    *   The handler in `pkg/adk/tool.go` is invoked:
+        *   It extracts the `"request"` string from the arguments.
+        *   It connects via gRPC to the **Local Sidecar** (default port `50052`).
+        *   It sends a `TaskSendRequest` (Protobuf) containing the prompt to the sidecar via a specialized stream.
+
+3.  **Mesh Routing (Sidecar)**:
+    *   The Sidecar receiving the request checks the `TargetAgentId` ("summary_agent").
+    *   *(In a distributed setup, it would query the Registry/A2A to find the remote IP. In this local example, it routes locally).*
+    *   It forwards the gRPC stream to the **Agent Server**.
+
+4.  **Agent Execution (Server-Side)**:
+    *   The **Agent Server** (`pkg/adk/server.go`) receives the `TaskStart` event.
+    *   It creates a transient **ADK Runner** instance specifically for this task.
+    *   It initializes an **In-Memory Session** to track the conversation state.
+    *   It unwraps the text prompt and calls `runner.Run()`.
+    *   This executes the real `summary_agent` logic (another Gemini call) locally on the server.
+
+5.  **Streaming Response**:
+    *   As the `summary_agent` generates tokens (thinking or final answer), the `server.go` handler captures these events.
+    *   It wraps the text output into `TaskStatusUpdate` messages (status: `WORKING` or `COMPLETED`).
+    *   These messages are streamed back through the gRPC connection: `Server` -> `Sidecar` -> `Client`.
+
+6.  **Completion**:
+    *   The Client's `RemoteTool` handler aggregates the streamed text chunks.
+    *   Upon completion, it returns the final summary string to the `root_agent`.
+    *   The `root_agent` uses this summary to formulate its final answer to the user.
+
+### 6.3. How to Start the Application
+
+To run the complete system locally, open three separate terminal windows:
+
+**1. Start the Sidecar**
+Acts as the communication hub.
+```bash
+cd cmd/sidecar
+go run main.go
+# Output:
+# Local listener started on localhost:50052
+# External listener started on 0.0.0.0:50053
+```
+
+**2. Start the Agent Server (Provider)**
+Hosts the "summary_agent".
+```bash
+cd cmd/adk_example/server
+export GOOGLE_API_KEY="your_api_key_here"
+go run main.go
+# Output:
+# Agent server listening on localhost:50054
+```
+
+**3. Run the Client (Consumer)**
+Runs the "root_agent" which calls the summary agent.
+```bash
+cd cmd/adk_example/client
+export GOOGLE_API_KEY="your_api_key_here"
+go run main.go "Summarize: A magical poetic retelling of the fairy tale The Snow Queen..."
+# Output:
+# Agent -> The text describes a poetic retelling of...
+```
