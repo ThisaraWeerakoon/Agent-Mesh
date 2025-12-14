@@ -2,9 +2,11 @@ package adk
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/ThisaraWeerakoon/Agent-Mesh/pkg/api/v1/mesh"
+	"github.com/google/jsonschema-go/jsonschema"
 	"google.golang.org/adk/tool"
 	"google.golang.org/adk/tool/functiontool"
 	"google.golang.org/grpc"
@@ -13,46 +15,76 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
-// ImportTool creates a new tool that proxies calls to the specified remote agent.
-func ImportTool(agentID string) (tool.Tool, error) {
+// RemoteTool creates a new tool that proxies calls to the specified remote agent.
+// It replicates the behavior of agenttool by using a default "request" string parameter.
+func RemoteTool(name, description, targetSkill string) (tool.Tool, error) {
 	port := os.Getenv("AGENTMESH_SIDECAR_PORT")
 	if port == "" {
 		port = "50052" // Default sidecar local port
 	}
 
 	// Handler function that executes the tool logic
-	handler := func(ctx tool.Context, input map[string]any) (string, error) {
+	handler := func(ctx tool.Context, input map[string]any) (map[string]any, error) {
+		// Extract 'request' from input, mirroring agenttool behavior
+		req, ok := input["request"].(string)
+		if !ok {
+			// Fallback: try to find any string argument or convert input to string
+			if len(input) > 0 {
+				for _, v := range input {
+					if s, ok := v.(string); ok {
+						req = s
+						break
+					}
+				}
+			}
+		}
+		if req == "" {
+			return nil, fmt.Errorf("missing string argument 'request' for tool %s", name)
+		}
+
 		// Connect to the local Sidecar
 		conn, err := grpc.NewClient(fmt.Sprintf("127.0.0.1:%s", port), grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
-			return "", fmt.Errorf("failed to connect to local sidecar: %w", err)
+			return nil, fmt.Errorf("failed to connect to local sidecar: %w", err)
 		}
 		defer conn.Close()
 
 		client := mesh.NewA2AMeshServiceClient(conn)
 
-		// Convert input to Protobuf Struct
+		// Convert input to Protobuf Struct.
+		// Note: We are wrapping the original input map to preserve full context if needed,
+		// but primarily sending the text 'req' as the prompt message.
+		// However, the mesh protocol expects structured input (DataPart) or text (TextPart).
+		// Let's iterate on this: Send 'req' as the user message text.
+
 		inputStruct, err := structpb.NewStruct(input)
 		if err != nil {
-			return "", fmt.Errorf("failed to convert input to struct: %w", err)
+			return nil, fmt.Errorf("failed to convert input to struct: %w", err)
 		}
 
 		// Prepare Metadata for Routing
-		md := metadata.Pairs("x-target-skill", agentID)
+		md := metadata.Pairs("x-target-skill", targetSkill)
 		outCtx := metadata.NewOutgoingContext(ctx, md)
 
 		// Start Stream
 		stream, err := client.StreamTask(outCtx)
 		if err != nil {
-			return "", fmt.Errorf("failed to start stream: %w", err)
+			return nil, fmt.Errorf("failed to start stream: %w", err)
 		}
 
 		// Construct and Send TaskStart
-		req := &mesh.TaskSendRequest{
-			TargetAgentId: agentID,
+		// We send the 'req' (instruction) as the TextPart of the message.
+		reqMsg := &mesh.TaskSendRequest{
+			TargetAgentId: targetSkill,
 			Message: &mesh.Message{
 				Role: "user",
 				Parts: []*mesh.Part{
+					{
+						Content: &mesh.Part_TextPart{
+							TextPart: req,
+						},
+					},
+					// We also include the full raw input as DataPart just in case the remote agent needs other fields.
 					{
 						Content: &mesh.Part_DataPart{
 							DataPart: inputStruct,
@@ -65,31 +97,27 @@ func ImportTool(agentID string) (tool.Tool, error) {
 		err = stream.Send(&mesh.StreamEvent{
 			Event: &mesh.StreamEvent_TaskStart{
 				TaskStart: &mesh.TaskStart{
-					Request: req,
+					Request: reqMsg,
 				},
 			},
 		})
 		if err != nil {
-			return "", fmt.Errorf("failed to send task start: %w", err)
+			return nil, fmt.Errorf("failed to send task start: %w", err)
 		}
 
 		// Close send direction to indicate we are done sending
-		// Note: If we wanted multi-turn, we wouldn't close strictly here, but for a tool call it's req-resp.
 		stream.CloseSend()
 
 		// Receive Response
 		var outputText string
 		for {
 			event, err := stream.Recv()
-			if err != nil {
-				return "", fmt.Errorf("stream recv error: %w", err)
+			if err == io.EOF {
+				break
 			}
-
-			// Handle different event types if needed.
-			// For now, looking for status updates with content?
-			// Wait, the MockAgent sent TaskStatusUpdate with Message string.
-			// But for real data, we usually want Artifacts or proper Messages.
-			// Let's accumulate text from StatusUpdate.Message or potentially new fields.
+			if err != nil {
+				return nil, fmt.Errorf("stream recv error: %w", err)
+			}
 
 			if status := event.GetStatusUpdate(); status != nil {
 				if status.Message != "" {
@@ -99,22 +127,29 @@ func ImportTool(agentID string) (tool.Tool, error) {
 					break
 				}
 			}
-			// Handle Artifacts?
 			if art := event.GetArtifactUpdate(); art != nil {
-				// Append artifact info or content?
 				outputText += fmt.Sprintf("[Artifact: %s]\n", art.Artifact.Name)
 			}
 		}
 
-		if outputText == "" {
-			return "Task completed (no output)", nil
-		}
+		return map[string]any{"result": outputText}, nil
+	}
 
-		return outputText, nil
+	// Replicate agenttool's default schema: {"request": "string"}
+	defaultSchema := &jsonschema.Schema{
+		Type: "object",
+		Properties: map[string]*jsonschema.Schema{
+			"request": {
+				Type:        "string",
+				Description: "The request or instruction for the agent.",
+			},
+		},
+		Required: []string{"request"},
 	}
 
 	return functiontool.New(functiontool.Config{
-		Name:        agentID,
-		Description: fmt.Sprintf("Remote agent tool: %s", agentID),
+		Name:        name,
+		Description: description,
+		InputSchema: defaultSchema,
 	}, handler)
 }
