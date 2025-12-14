@@ -47,7 +47,7 @@ func (s *Server) Run(ctx context.Context) error {
 
 	// 1. Local Listener (Plaintext, localhost)
 	g.Go(func() error {
-		lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", s.config.LocalPort))
+		lis, err := net.Listen("tcp", fmt.Sprintf("127.0.0.1:%d", s.config.LocalPort))
 		if err != nil {
 			return fmt.Errorf("failed to listen on local port: %w", err)
 		}

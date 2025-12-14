@@ -23,7 +23,7 @@ func ImportTool(agentID string) (tool.Tool, error) {
 	// Handler function that executes the tool logic
 	handler := func(ctx tool.Context, input map[string]any) (string, error) {
 		// Connect to the local Sidecar
-		conn, err := grpc.NewClient(fmt.Sprintf("localhost:%s", port), grpc.WithTransportCredentials(insecure.NewCredentials()))
+		conn, err := grpc.NewClient(fmt.Sprintf("127.0.0.1:%s", port), grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			return "", fmt.Errorf("failed to connect to local sidecar: %w", err)
 		}
