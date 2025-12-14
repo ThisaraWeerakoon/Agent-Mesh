@@ -48,6 +48,30 @@ The server will start on:
 -   **HTTP**: Port `3000`
 -   **gRPC**: Port `50051`
 
+## Google ADK Integration
+Easily integrate `google/adk-go` agents with the AgentMesh network.
+
+### 1. Client: Import Remote Agent as Tool
+```go
+import mesh_adk "github.com/ThisaraWeerakoon/Agent-Mesh/pkg/adk"
+
+// Create a tool that proxies requests to the remote 'summary_agent'
+summaryTool, _ := mesh_adk.ImportTool("summary_agent")
+
+// Use it in your agent
+rootAgent, _ := llmagent.New(llmagent.Config{
+    Tools: []tool.Tool{summaryTool},
+})
+```
+
+### 2. Server: Expose Agent to Mesh
+```go
+import mesh_adk "github.com/ThisaraWeerakoon/Agent-Mesh/pkg/adk"
+
+// Start a server that listens for mesh tasks and forwards to your agent
+mesh_adk.ServeAgent(50054, myAdkAgent)
+```
+
 ## Documentation
 
 For more detailed information, please refer to the following guides:

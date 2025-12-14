@@ -100,9 +100,15 @@ message Artifact {
 // StreamEvent wraps A2A event types for streaming.
 message StreamEvent {
   oneof event {
+    TaskStart task_start = 3;
     TaskStatusUpdate status_update = 1;
     TaskArtifactUpdate artifact_update = 2;
   }
+}
+
+// TaskStart initiates a new task in the stream.
+message TaskStart {
+  TaskSendRequest request = 1;
 }
 
 // TaskStatusUpdate represents a change in task status.
